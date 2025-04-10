@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMySpot - Find Parking in Your City</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Emergency override to ensure navbar is dark */
+        .navbar {
+            background-color: #0D2243 !important;
+            background: rgba(13, 34, 67, 0.95) !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Add background glow element -->
+    <div class="background-glow"></div>
+    
+    <!-- Add glowing routes -->
+    <div class="glowing-routes">
+        <div class="route horizontal"></div>
+        <div class="route horizontal"></div>
+        <div class="route horizontal"></div>
+        <div class="route vertical"></div>
+        <div class="route vertical"></div>
+        <div class="route vertical"></div>
+    </div>
+    
+    <!-- Add floating markers to represent parking spots -->
+    <div class="floating-markers">
+        <div class="marker"></div>
+        <div class="marker"></div>
+        <div class="marker"></div>
+        <div class="marker"></div>
+        <div class="marker"></div>
+        <div class="marker"></div>
+        <div class="marker"></div>
+    </div>
+    
+    <!-- Add simulated traffic -->
+    <div class="traffic">
+        <div class="car horizontal"></div>
+        <div class="car horizontal"></div>
+        <div class="car horizontal"></div>
+        <div class="car horizontal"></div>
+        <div class="car horizontal"></div>
+        <div class="car vertical"></div>
+        <div class="car vertical"></div>
+        <div class="car vertical"></div>
+        <div class="car vertical"></div>
+        <div class="car vertical"></div>
+        <div class="car diagonal"></div>
+        <div class="car diagonal"></div>
+    </div>
+    
+    <nav class="navbar" style="background-color: #0D2243; background: rgba(13, 34, 67, 0.95);">
+        <div class="logo">FindMySpot<span>.</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#problem">The Problem</a></li>
+            <li><a href="#solution">Our Solution</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#download">Download</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero section-transition">
+        <div class="hero-content">
+            <h1>Never Circle for Parking Again</h1>
+            <p>FindMySpot uses real-time crowdsourced data to help you find available parking spots instantly, reducing traffic and saving you time.</p>
+            <button class="cta-button">Get Started</button>
+        </div>
+        <div class="iphone-mockup">
+            <div class="iphone-notch"></div>
+            <div class="iphone-screen">
+                <div class="iphone-content">
+                    <h3>FindMySpot</h3>
+                    <p>Available Spots Near You</p>
+                    <div class="spot-list">
+                        <div class="spot-item scroll-animated">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Ellermanstraat 60 - 0.2km</span>
+                        </div>
+                        <div class="spot-item scroll-animated">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>De Pretstraat 12 - 0.5km</span>
+                        </div>
+                        <div class="spot-item scroll-animated">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Duboisstraat 57 - 0.7km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="problem" class="features section-transition">
+        <h2 class="scroll-animated">The Parking Problem</h2>
+        <div class="features-grid">
+            <div class="feature-card scroll-animated">
+                <i class="fa-solid fa-hourglass-end"></i>
+                <h3>Time Loss</h3>
+                <p>Users waste significant time searching for parking spots, causing frustration and unnecessary delays</p>
+            </div>
+            <div class="feature-card scroll-animated">
+                <i class="fa-solid fa-car"></i>
+                <h3>Increased Traffic</h3>
+                <p>Constant circling for parking increases traffic congestion and unnecessary emissions</p>
+            </div>
+            <div class="feature-card scroll-animated">
+                <i class="fa-solid fa-face-angry"></i>
+                <h3>Uncertainty & Frustration</h3>
+                <p>Users often can't know if a spot is actually available, leading to stress and wasted effort</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="solution" class="features section-transition">
+        <h2 class="scroll-animated">Our Smart Solution</h2>
+        <div class="features-grid">
+            <div class="feature-card scroll-animated">
+                <i class="fas fa-clock"></i>
+                <h3>Real-Time Updates</h3>
+                <p>Get instant updates on available parking spots</p>
+            </div>
+            <div class="feature-card scroll-animated">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Smart Navigation</h3>
+                <p>Find the closest available spots at your destination</p>
+            </div>
+            <div class="feature-card scroll-animated">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>In-App Payments</h3>
+                <p>Pay for parking directly through the app</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works section-transition">
+        <h2 class="scroll-animated">How It Works</h2>
+        <div class="steps">
+            <div class="step scroll-animated">
+                <div class="step-number">1</div>
+                <h3>Enter Your Destination</h3>
+                <p>Tell us where you're going</p>
+            </div>
+            <div class="step scroll-animated">
+                <div class="step-number">2</div>
+                <h3>View Available Spots</h3>
+                <p>See real-time parking availability</p>
+            </div>
+            <div class="step scroll-animated">
+                <div class="step-number">3</div>
+                <h3>Set Destination & Park</h3>
+                <p>Park with ease and pay through the app</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="download section-transition">
+        <h2 class="scroll-animated">Ready to Park Smarter?</h2>
+        <p class="scroll-animated">Download FindMySpot now and never worry about parking again</p>
+        <div class="download-buttons">
+            <a href="#" class="app-store-button scroll-animated" aria-label="Download on the App Store"></a>
+            <a href="#" class="play-store-button scroll-animated" aria-label="Get it on Google Play"></a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section scroll-animated">
+                <h3>FindMySpot</h3>
+                <p>Making parking easy in major cities</p>
+            </div>
+            <div class="footer-section scroll-animated">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#problem">The Problem</a></li>
+                    <li><a href="#solution">Our Solution</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#download">Download</a></li>
+                </ul>
+            </div>
+            <div class="footer-section scroll-animated">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 FindMySpot. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
