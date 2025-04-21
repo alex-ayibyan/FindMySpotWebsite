@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
     createMobileMenu();
     
     animateOnScroll();
+
+    initializeIPhoneMockup();
 });
 
 const contactForm = document.querySelector('.contact-form');
@@ -162,46 +164,137 @@ window.addEventListener('resize', () => {
     }
 });
 
-
-document.addEventListener('DOMContentLoaded', function() {
-    initializeIPhoneMockup();
-});
-
 function initializeIPhoneMockup() {
-    const spotItems = document.querySelectorAll('.spot-item');
+    createMapView();
+    
     const navItems = document.querySelectorAll('.nav-item');
+    const findView = document.getElementById('find-view');
+    const mapView = document.getElementById('map-view');
     
-    let activeSpotIndex = 0;
+    if (mapView) {
+        mapView.style.display = 'none';
+    }
     
-    setInterval(() => {
-        spotItems.forEach(item => item.classList.remove('active'));
-        
-        activeSpotIndex = (activeSpotIndex + 1) % spotItems.length;
-        
-        spotItems[activeSpotIndex].classList.add('active');
-        spotItems[activeSpotIndex].style.transform = 'translateX(5px)';
-        
-        setTimeout(() => {
-            spotItems[activeSpotIndex].style.transform = '';
-        }, 300);
-    }, 3000);
-    
-    let currentView = 'find-view';
-    const views = ['find-view', 'reserve-view', 'navigate-view'];
-    let viewIndex = 0;
-    
-    const iPhoneMockup = document.querySelector('.iphone-mockup');
-    
-    document.addEventListener('mousemove', (e) => {
-        if (window.innerWidth > 768) {
-            const mouseX = e.clientX / window.innerWidth - 0.5;
-            const mouseY = e.clientY / window.innerHeight - 0.5;
+    if (navItems.length >= 2) {
+        navItems[0].addEventListener('click', () => {
+            navItems.forEach(item => item.classList.remove('active'));
+            navItems[0].classList.add('active');
             
-            iPhoneMockup.style.transform = `rotateY(${mouseX * 10}deg) rotateX(${-mouseY * 10}deg) scale(1.02)`;
-        }
-    });
+            if (findView) findView.style.display = 'flex';
+            if (mapView) mapView.style.display = 'none';
+        });
+        
+        navItems[1].addEventListener('click', () => {
+            navItems.forEach(item => item.classList.remove('active'));
+            navItems[1].classList.add('active');
+            
+            if (findView) findView.style.display = 'none';
+            if (mapView) mapView.style.display = 'flex';
+        });
+    }
     
-    document.querySelector('#home').addEventListener('mouseleave', () => {
-        iPhoneMockup.style.transform = '';
-    });
+    let viewIndex = 0;
+    setInterval(() => {
+        viewIndex = (viewIndex + 1) % 2;
+        
+        navItems.forEach((item, index) => {
+            if (index === viewIndex) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+        
+        if (viewIndex === 0) {
+            if (findView) findView.style.display = 'flex';
+            if (mapView) mapView.style.display = 'none';
+        } else {
+            if (findView) findView.style.display = 'none';
+            if (mapView) mapView.style.display = 'flex';
+        }
+    }, 5000);
+    
+    const notification = document.getElementById('parkingNotification');
+    if (notification) {
+        setInterval(() => {
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 6000);
+        }, 10000);
+    }
 }
+
+function createMapView() {
+    const appContent = document.querySelector('.iphone-content');
+    const existingMapView = document.getElementById('map-view');
+    
+    if (existingMapView || !appContent) return;
+    
+    const mapView = document.createElement('div');
+    mapView.id = 'map-view';
+    mapView.className = 'app-view';
+    mapView.style.display = 'none';
+    mapView.style.flexDirection = 'column';
+    
+    mapView.innerHTML = `
+        <p>Navigate to Parking Spot</p>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <span>Ellermanstraat 60</span>
+        </div>
+        
+        <div class="map-container">
+            <div class="map-background"></div>
+            <div class="route-path">
+                <div class="route-dot"></div>
+            </div>
+            <div class="destination-marker"></div>
+        </div>
+        
+        <div class="navigation-info">
+            <div class="nav-destination">
+                <i class="fas fa-parking"></i>
+                <div class="nav-text">
+                    <div class="nav-location">Ellermanstraat 60</div>
+                    <div class="nav-eta">5 min (0.2 km)</div>
+                </div>
+            </div>
+            
+            <div class="turn-by-turn">
+                <div class="turn-step">
+                    <div class="turn-icon">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="turn-instruction">Turn right at Karel Maartensstraat</div>
+                </div>
+                <div class="turn-step current">
+                    <div class="turn-icon">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <div class="turn-instruction">Turn left onto Ellermanstraat</div>
+                </div>
+                <div class="turn-step">
+                    <div class="turn-icon">
+                        <i class="fas fa-parking"></i>
+                    </div>
+                    <div class="turn-instruction">Parking spot at destination</div>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="app-button">Arrived</button>
+                <button class="app-button secondary">Cancel</button>
+            </div>
+        </div>
+    `;
+    
+    const appNav = appContent.querySelector('.app-nav');
+    if (appNav) {
+        appContent.insertBefore(mapView, appNav);
+    } else {
+        appContent.appendChild(mapView);
+    }
+}
+

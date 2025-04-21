@@ -152,12 +152,11 @@ body::before {
     overflow: hidden;
     margin: 0 auto;
     z-index: 2;
-    transition: transform 0.5s ease;
 }
 
 .iphone-mockup:hover {
-    transform: rotate3d(1, 5, 0, 10deg) scale(1.05);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 0 2px #3AB98B;
+    transform: none;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 0 2px #3AB98B;
 }
 
 .iphone-screen {
@@ -202,6 +201,12 @@ body::before {
 }
 
 .app-header h3 {
+    color: white;
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+}
+.app-header h3 span {
     color: #3AB98B;
     margin: 0;
     font-size: 22px;
@@ -1148,4 +1153,186 @@ footer {
                 rgba(58, 185, 139, 0.4) 50%, 
                 transparent 100%);
     z-index: 10;
+}
+
+.map-container {
+    height: 180px;
+    background: #172e57;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.map-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(to bottom, transparent, rgba(23, 46, 87, 0.5)), 
+                      linear-gradient(to right, rgba(58, 185, 139, 0.2) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(58, 185, 139, 0.2) 1px, transparent 1px);
+    background-size: 100% 100%, 20px 20px, 20px 20px;
+    opacity: 0.7;
+}
+
+.route-path {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 15%;
+    height: 3px;
+    background: #3AB98B;
+}
+
+.route-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: moveAlongPath 6s infinite linear;
+}
+
+@keyframes moveAlongPath {
+    0% { left: 10%; }
+    100% { left: 85%; }
+}
+
+.destination-marker {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #3AB98B;
+    border-radius: 50%;
+    right: 15%;
+    top: 50%;
+    transform: translate(50%, -50%);
+}
+
+.destination-marker:before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(58, 185, 139, 0.3);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+.navigation-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.nav-destination {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.nav-destination i {
+    color: #3AB98B;
+    font-size: 16px;
+}
+
+.nav-text {
+    flex: 1;
+}
+
+.nav-location {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.nav-eta {
+    color: #a8b2c1;
+    font-size: 12px;
+}
+
+.turn-by-turn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.turn-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    opacity: 0.6;
+}
+
+.turn-step.current {
+    background: rgba(58, 185, 139, 0.1);
+    opacity: 1;
+}
+
+.turn-icon {
+    width: 26px;
+    height: 26px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.current .turn-icon {
+    background: #3AB98B;
+}
+
+.turn-instruction {
+    font-size: 12px;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.nav-buttons .app-button {
+    flex: 1;
+    padding: 10px;
+    font-size: 13px;
+}
+
+.app-button {
+    background: #3AB98B;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.app-button:hover {
+    background: #2da578;
+    transform: translateY(-2px);
+}
+
+.app-button.secondary {
+    background: rgba(255, 255, 255, 0.2);
 }
