@@ -1,34 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const forceAnimations = () => {
-        document.querySelectorAll('.background-glow, .marker, .car, .route').forEach(el => {
-            void el.offsetWidth;
-            if (el.style) {
-                el.style.animationPlayState = 'running';
-            }
-        });
-        
-        document.querySelectorAll('.scroll-animated').forEach(el => {
-            el.classList.add('active');
-        });
-        
-        document.querySelectorAll('.section-transition').forEach(section => {
-            section.classList.add('active');
-        });
-    };
-    
-    forceAnimations();
-    
-    setTimeout(() => {
-        forceAnimations();
-    }, 1000);
-    
-    const img = new Image();
-    img.src = 'backgroundroads.png';
-    img.onload = () => {
-        document.body.classList.add('bg-loaded');
-    };
-});
-
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -64,6 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
     navbar.style.background = 'rgba(13, 34, 67, 0.95)';
     
     createMobileMenu();
+    
+    animateOnScroll();
 });
 
 const contactForm = document.querySelector('.contact-form');
@@ -76,11 +47,8 @@ if (contactForm) {
         formData.forEach((value, key) => {
             formObject[key] = value;
         });
-
-        console.log('Form submitted:', formObject);
         
         alert('Thank you for your message! We will get back to you soon.');
-        
         this.reset();
     });
 }
@@ -90,9 +58,7 @@ const animateOnScroll = () => {
     
     elements.forEach((element) => {
         const elementTop = element.getBoundingClientRect().top;
-        const elementBottom = element.getBoundingClientRect().bottom;
-        
-        if (elementTop < window.innerHeight * 0.9 && elementBottom > 0) {
+        if (elementTop < window.innerHeight * 0.9) {
             element.classList.add('active');
         }
     });
@@ -100,9 +66,7 @@ const animateOnScroll = () => {
     const sections = document.querySelectorAll('.section-transition');
     sections.forEach(section => {
         const sectionTop = section.getBoundingClientRect().top;
-        const sectionBottom = section.getBoundingClientRect().bottom;
-        
-        if (sectionTop < window.innerHeight * 0.9 && sectionBottom > 0) {
+        if (sectionTop < window.innerHeight * 0.9) {
             section.classList.add('active');
             
             if (section.id === 'problem' || section.id === 'solution') {
@@ -124,37 +88,13 @@ const animateOnScroll = () => {
     });
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.scroll-animated').forEach(element => {
-        element.style.opacity = '1';
-        element.style.transform = 'translateY(0)';
-        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    });
-    
-    document.querySelectorAll('.section-transition').forEach(section => {
-        section.style.opacity = '1';
-        section.style.transform = 'translateY(0)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    });
-    
-    document.querySelectorAll('.feature-card, .step').forEach(element => {
-        element.style.opacity = '1';
-        element.style.transform = 'translateY(0)';
-        element.style.transition = 'all 0.6s ease';
-    });
-    
-    window.addEventListener('scroll', animateOnScroll);
-    
-    animateOnScroll();
-});
-
 let scrollTimeout;
 window.addEventListener('scroll', () => {
     if (!scrollTimeout) {
         scrollTimeout = setTimeout(() => {
             animateOnScroll();
             scrollTimeout = null;
-        }, 30);
+        }, 50);
     }
 });
 
@@ -168,7 +108,6 @@ document.querySelectorAll('.feature-card').forEach(card => {
         const icon = card.querySelector('i');
         if (icon) {
             icon.style.color = '#ffffff';
-            icon.style.textShadow = '0 0 20px rgba(58, 185, 139, 0.8)';
         }
     });
     
@@ -179,7 +118,6 @@ document.querySelectorAll('.feature-card').forEach(card => {
         const icon = card.querySelector('i');
         if (icon) {
             icon.style.color = '#3AB98B';
-            icon.style.textShadow = '0 0 15px rgba(58, 185, 139, 0.5)';
         }
     });
 });
