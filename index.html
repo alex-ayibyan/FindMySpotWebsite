@@ -25,32 +25,87 @@
         </ul>
     </nav>
 
+
     <section id="home" class="hero section-transition">
         <div class="hero-content">
             <h1>Never Circle for Parking Again</h1>
             <p>FindMySpot uses real-time crowdsourced data to help you find available parking spots instantly, reducing traffic and saving you time.</p>
             <button class="cta-button">Get Started</button>
         </div>
+        
         <div class="iphone-mockup">
             <div class="iphone-notch"></div>
             <div class="iphone-screen">
                 <div class="iphone-content">
-                    <h3>FindMySpot</h3>
-                    <p>Available Spots Near You</p>
-                    <div class="spot-list">
-                        <div class="spot-item scroll-animated">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Ellermanstraat 60 - 0.2km</span>
-                        </div>
-                        <div class="spot-item scroll-animated">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>De Pretstraat 12 - 0.5km</span>
-                        </div>
-                        <div class="spot-item scroll-animated">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Duboisstraat 57 - 0.7km</span>
+                    <div class="app-header">
+                        <h3>FindMySpot</h3>
+                        <div class="status-icons">
+                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-user-circle"></i>
                         </div>
                     </div>
+                    
+                    <div class="app-view" id="find-view">
+                        <p>Available Spots Near You</p>
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <span>Search destination...</span>
+                        </div>
+                        
+                        <div class="spot-list">
+                            <div class="spot-item active">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="spot-details">
+                                    <span class="spot-location">Ellermanstraat 60</span>
+                                    <div class="spot-info">
+                                        <span class="distance">0.2km</span>
+                                        <span class="price">€2.50/hr</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="spot-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="spot-details">
+                                    <span class="spot-location">De Pretstraat 12</span>
+                                    <div class="spot-info">
+                                        <span class="distance">0.5km</span>
+                                        <span class="price">€1.75/hr</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="spot-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="spot-details">
+                                    <span class="spot-location">Duboisstraat 57</span>
+                                    <div class="spot-info">
+                                        <span class="distance">0.7km</span>
+                                        <span class="price">€2.00/hr</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="app-nav">
+                        <div class="nav-item active">
+                            <i class="fas fa-search"></i>
+                            <span>Find</span>
+                        </div>
+                        <div class="nav-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span>Navigate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="app-notification" id="parkingNotification">
+                <div class="notification-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">FindMySpot</div>
+                    <div class="notification-message">New parking spot available near you!</div>
                 </div>
             </div>
         </div>
