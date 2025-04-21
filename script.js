@@ -1,3 +1,34 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const forceAnimations = () => {
+        document.querySelectorAll('.background-glow, .marker, .car, .route').forEach(el => {
+            void el.offsetWidth;
+            if (el.style) {
+                el.style.animationPlayState = 'running';
+            }
+        });
+        
+        document.querySelectorAll('.scroll-animated').forEach(el => {
+            el.classList.add('active');
+        });
+        
+        document.querySelectorAll('.section-transition').forEach(section => {
+            section.classList.add('active');
+        });
+    };
+    
+    forceAnimations();
+    
+    setTimeout(() => {
+        forceAnimations();
+    }, 1000);
+    
+    const img = new Image();
+    img.src = 'backgroundroads.png';
+    img.onload = () => {
+        document.body.classList.add('bg-loaded');
+    };
+});
+
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -61,7 +92,7 @@ const animateOnScroll = () => {
         const elementTop = element.getBoundingClientRect().top;
         const elementBottom = element.getBoundingClientRect().bottom;
         
-        if (elementTop < window.innerHeight * 0.85 && elementBottom > 0) {
+        if (elementTop < window.innerHeight * 0.9 && elementBottom > 0) {
             element.classList.add('active');
         }
     });
@@ -71,7 +102,7 @@ const animateOnScroll = () => {
         const sectionTop = section.getBoundingClientRect().top;
         const sectionBottom = section.getBoundingClientRect().bottom;
         
-        if (sectionTop < window.innerHeight * 0.8 && sectionBottom > 0) {
+        if (sectionTop < window.innerHeight * 0.9 && sectionBottom > 0) {
             section.classList.add('active');
             
             if (section.id === 'problem' || section.id === 'solution') {
@@ -79,14 +110,14 @@ const animateOnScroll = () => {
                 cards.forEach((card, index) => {
                     setTimeout(() => {
                         card.classList.add('active');
-                    }, index * 200);
+                    }, index * 150);
                 });
             } else if (section.id === 'how-it-works') {
                 const steps = section.querySelectorAll('.step');
                 steps.forEach((step, index) => {
                     setTimeout(() => {
                         step.classList.add('active');
-                    }, index * 300);
+                    }, index * 200);
                 });
             }
         }
@@ -123,7 +154,7 @@ window.addEventListener('scroll', () => {
         scrollTimeout = setTimeout(() => {
             animateOnScroll();
             scrollTimeout = null;
-        }, 50);
+        }, 30);
     }
 });
 
@@ -191,4 +222,4 @@ window.addEventListener('resize', () => {
     if (window.innerWidth <= 768 && !document.querySelector('.mobile-menu-button')) {
         createMobileMenu();
     }
-}); 
+});
