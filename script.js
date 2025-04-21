@@ -1,4 +1,4 @@
-// Smooth scrolling for navigation links
+// Smooth scrolling for navigation links with debounce
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -13,31 +13,51 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             const navLinks = document.querySelector('.nav-links');
             if (navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
+                
+                // Update menu button icon if it exists
+                const menuButton = document.querySelector('.mobile-menu-button');
+                if (menuButton) {
+                    menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+                }
             }
         }
     });
 });
 
-// Navbar background change on scroll
-const navbar = document.querySelector('.navbar');
+// Debounced navbar background change on scroll
+// This decreases the number of calculations during rapid scrolling
+let isScrolling;
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(13, 34, 67, 0.98)';
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.5)';
-    } else {
-        navbar.style.background = 'rgba(13, 34, 67, 0.95)';
-        navbar.style.boxShadow = 'none';
-    }
+    // Clear our timeout throughout the scroll
+    window.clearTimeout(isScrolling);
+    
+    // Set a timeout to run after scrolling ends
+    isScrolling = setTimeout(function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.style.background = 'rgba(13, 34, 67, 0.98)';
+            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.5)';
+        } else {
+            navbar.style.background = 'rgba(13, 34, 67, 0.95)';
+            navbar.style.boxShadow = 'none';
+        }
+    }, 50);
 });
 
-// Force the navbar color on page load
+// Initialize on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Initial navbar color
     const navbar = document.querySelector('.navbar');
     navbar.style.backgroundColor = '#0D2243';
     navbar.style.background = 'rgba(13, 34, 67, 0.95)';
     
     // Initialize mobile menu
-    createMobileMenu();
+    if (window.innerWidth <= 768) {
+        createMobileMenu();
+    }
+    
+    // Initialize scroll animations with IntersectionObserver
+    initializeScrollAnimations();
 });
 
 // Form submission handling
@@ -64,126 +84,83 @@ if (contactForm) {
     });
 }
 
-// Animate elements on scroll with enhanced effects
-const animateOnScroll = () => {
-    // Get all elements with scroll-animated class
-    const elements = document.querySelectorAll('.scroll-animated');
-    
-    elements.forEach((element) => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementBottom = element.getBoundingClientRect().bottom;
-        
-        // If element is in viewport
-        if (elementTop < window.innerHeight * 0.85 && elementBottom > 0) {
-            element.classList.add('active');
-        }
-    });
-    
-    // Section transitions with specific animations
-    const sections = document.querySelectorAll('.section-transition');
-    sections.forEach(section => {
-        const sectionTop = section.getBoundingClientRect().top;
-        const sectionBottom = section.getBoundingClientRect().bottom;
-        
-        if (sectionTop < window.innerHeight * 0.8 && sectionBottom > 0) {
-            section.classList.add('active');
-            
-            // Add specific animations based on section
-            if (section.id === 'problem' || section.id === 'solution') {
-                const cards = section.querySelectorAll('.feature-card');
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('active');
-                    }, index * 200); // Stagger the animations
-                });
-            } else if (section.id === 'how-it-works') {
-                const steps = section.querySelectorAll('.step');
-                steps.forEach((step, index) => {
-                    setTimeout(() => {
-                        step.classList.add('active');
-                    }, index * 300); // Stagger the animations
-                });
+// Optimize animations with IntersectionObserver
+// This is MUCH more efficient than checking all elements on every scroll
+function initializeScrollAnimations() {
+    // Create an observer for scroll-animated elements
+    const animatedElementsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                
+                // Optional: Stop observing once animation is triggered
+                // animatedElementsObserver.unobserve(entry.target);
             }
-        }
-    });
-};
-
-// Initialize scroll animations
-document.addEventListener('DOMContentLoaded', () => {
-    // Set initial styles for scroll-animated elements
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+    
+    // Observe all elements with scroll-animated class
     document.querySelectorAll('.scroll-animated').forEach(element => {
-        element.style.opacity = '1'; // Start visible
-        element.style.transform = 'translateY(0)';
-        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        animatedElementsObserver.observe(element);
     });
     
-    // Set initial styles for section transitions
+    // Create an observer for sections
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const section = entry.target;
+                section.classList.add('active');
+                
+                // Handle specific section animations more efficiently with requestAnimationFrame
+                if (section.id === 'problem' || section.id === 'solution') {
+                    const cards = section.querySelectorAll('.feature-card');
+                    if (cards.length) {
+                        // Use requestAnimationFrame for smoother animations
+                        requestAnimationFrame(() => {
+                            cards.forEach((card, index) => {
+                                setTimeout(() => {
+                                    card.classList.add('active');
+                                }, index * 150);
+                            });
+                        });
+                    }
+                } else if (section.id === 'how-it-works') {
+                    const steps = section.querySelectorAll('.step');
+                    if (steps.length) {
+                        requestAnimationFrame(() => {
+                            steps.forEach((step, index) => {
+                                setTimeout(() => {
+                                    step.classList.add('active');
+                                }, index * 200);
+                            });
+                        });
+                    }
+                }
+                
+                // Optional: Stop observing once animation is triggered
+                // sectionObserver.unobserve(section);
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    // Observe all section transitions
     document.querySelectorAll('.section-transition').forEach(section => {
-        section.style.opacity = '1'; // Start visible
-        section.style.transform = 'translateY(0)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        sectionObserver.observe(section);
     });
-    
-    // Set initial styles for feature cards and steps
-    document.querySelectorAll('.feature-card, .step').forEach(element => {
-        element.style.opacity = '1'; // Start visible
-        element.style.transform = 'translateY(0)';
-        element.style.transition = 'all 0.6s ease';
-    });
-    
-    // Add event listener for scroll
-    window.addEventListener('scroll', animateOnScroll);
-    
-    // Trigger initial check
-    animateOnScroll();
-});
+}
 
-// Add scroll event listener for animations with throttling for performance
-let scrollTimeout;
-window.addEventListener('scroll', () => {
-    if (!scrollTimeout) {
-        scrollTimeout = setTimeout(() => {
-            animateOnScroll();
-            scrollTimeout = null;
-        }, 50);
-    }
-});
-
-// Update animations on window resize
-window.addEventListener('resize', animateOnScroll);
-
-// Add more dynamic behaviors to hover states
-document.querySelectorAll('.feature-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-10px) scale(1.03)';
-        card.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.2)';
-        
-        // Highlight icon on hover
-        const icon = card.querySelector('i');
-        if (icon) {
-            icon.style.color = '#ffffff';
-            icon.style.textShadow = '0 0 20px rgba(58, 185, 139, 0.8)';
-        }
-    });
+// Optimized mobile menu creation
+function createMobileMenu() {
+    // Only create if it doesn't already exist
+    if (document.querySelector('.mobile-menu-button')) return;
     
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0) scale(1)';
-        card.style.boxShadow = 'none';
-        
-        // Restore icon
-        const icon = card.querySelector('i');
-        if (icon) {
-            icon.style.color = '#3AB98B';
-            icon.style.textShadow = '0 0 15px rgba(58, 185, 139, 0.5)';
-        }
-    });
-});
-
-// Add mobile menu toggle
-const createMobileMenu = () => {
-    if (window.innerWidth > 768) return; // Only create for mobile
-    
+    const navbar = document.querySelector('.navbar');
     const nav = document.querySelector('.nav-links');
+    
+    // Make sure nav has dark background on mobile
+    nav.style.backgroundColor = '#0D2243';
+    
+    // Create menu button
     const menuButton = document.createElement('button');
     menuButton.className = 'mobile-menu-button';
     menuButton.innerHTML = '<i class="fas fa-bars"></i>';
@@ -193,14 +170,9 @@ const createMobileMenu = () => {
     menuButton.style.fontSize = '1.5rem';
     menuButton.style.cursor = 'pointer';
     
-    // Add only if it doesn't already exist
-    if (!document.querySelector('.mobile-menu-button')) {
-        document.querySelector('.navbar').appendChild(menuButton);
-    }
+    navbar.appendChild(menuButton);
     
-    // Make sure nav has dark background on mobile
-    nav.style.backgroundColor = '#0D2243';
-    
+    // Toggle menu on button click
     menuButton.addEventListener('click', () => {
         nav.classList.toggle('active');
         menuButton.innerHTML = nav.classList.contains('active') ? 
@@ -215,11 +187,19 @@ const createMobileMenu = () => {
             menuButton.innerHTML = '<i class="fas fa-bars"></i>';
         }
     });
-};
+}
 
-// Monitor window resize for mobile menu
+// Efficiently handle window resize with debounce
+let resizeTimeout;
 window.addEventListener('resize', () => {
-    if (window.innerWidth <= 768 && !document.querySelector('.mobile-menu-button')) {
-        createMobileMenu();
-    }
-}); 
+    // Clear the timeout on every resize event
+    clearTimeout(resizeTimeout);
+    
+    // Set a timeout to run after resize ends
+    resizeTimeout = setTimeout(() => {
+        // Create mobile menu if needed
+        if (window.innerWidth <= 768 && !document.querySelector('.mobile-menu-button')) {
+            createMobileMenu();
+        }
+    }, 250);
+});
