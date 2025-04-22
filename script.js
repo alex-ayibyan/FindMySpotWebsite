@@ -221,7 +221,7 @@ function initializeIPhoneMockup() {
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 6000);
+            }, 3000);
         }, 10000);
     }
 }
