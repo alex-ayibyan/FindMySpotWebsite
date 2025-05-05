@@ -22,6 +22,7 @@
             <li><a href="#solution">Our Solution</a></li>
             <li><a href="#how-it-works">How It Works</a></li>
             <li><a href="#download">Download</a></li>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
         </ul>
     </nav>
 
@@ -197,6 +198,7 @@
                     <li><a href="#solution">Our Solution</a></li>
                     <li><a href="#how-it-works">How It Works</a></li>
                     <li><a href="#download">Download</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-section scroll-animated">
@@ -211,8 +213,34 @@
         <div class="footer-bottom">
             <p>&copy; 2025 FindMySpot. All rights reserved.</p>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Find the footer Quick Links section
+                const quickLinksUl = document.querySelector('.footer-section:nth-child(2) ul');
+                
+                if (quickLinksUl) {
+                    // Create Cookie Preferences list item
+                    const cookiePrefLi = document.createElement('li');
+                    const cookiePrefLink = document.createElement('a');
+                    cookiePrefLink.href = '#';
+                    cookiePrefLink.className = 'privacy-preferences-link';
+                    cookiePrefLink.textContent = 'Cookie Preferences';
+                    
+                    // Add click event
+                    cookiePrefLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        // This will trigger the cookie popup again
+                        createCookieConsentPopup(); 
+                    });
+                    
+                    cookiePrefLi.appendChild(cookiePrefLink);
+                    quickLinksUl.appendChild(cookiePrefLi);
+                }
+            });
+            </script>
     </footer>
 
     <script src="script.js"></script>
+    <script src="cookie-consent.js"></script>
 </body>
 </html>

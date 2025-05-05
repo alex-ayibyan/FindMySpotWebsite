@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FindMySpot Circle</title>
+  <!-- Add Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0D2243;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .circle-text {
+      font-size: 10rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(58, 185, 139, 0.4);
+    }
+
+    .circle-text span {
+      color: #3AB98B;
+    }
+
+    .status-icons {
+      display: flex;
+      gap: 24px;
+      margin-top: 2rem;
+    }
+
+    .status-icons i {
+      color: #3AB98B;
+      font-size: 10rem;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .status-icons i:hover {
+      transform: scale(1.2);
+    }
+
+    .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10rem 5% 8rem;
+    border-bottom: 2px solid rgba(58, 185, 139, 0.15);
+    position: relative;
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 600px;
+    margin-right: 2rem;
+    position: relative;
+    z-index: 2;
+}
+.hero h1 {
+    font-size: 4rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    color: #a8b2c1;
+    line-height: 1.8;
+}
+  </style>
+</head>
+<body>
+
+  <div class="circle-text">
+    Get Started<span>.</span>
+  </div>
+
+  <div class="status-icons">
+    <i class="fas fa-bell"></i>
+    <i class="fas fa-user-circle"></i>
+  </div>
+  <section id="home" class="hero section-transition">
+    <div class="hero-content">
+        <h1>Never Circle for Parking Again</h1>
+        <p>FindMySpot uses real-time crowdsourced data to help you find available parking spots instantly, reducing traffic and saving you time.</p>
+    </div>
+</section>
+
+</body>
+</html>
